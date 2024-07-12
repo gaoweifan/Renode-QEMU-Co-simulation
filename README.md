@@ -30,16 +30,16 @@ Shared memory between Renode and QEMU for Co-simulation
     ```
 2. start QEMU with memory file backend params and check if the file /dev/shm/qemu-ram has been generated
 ### Renode
-1. add SharedMemory peripheral to `your_renode_platform.repl`
+1. replace MappedMemory with SharedMemory in `your_renode_platform.repl`
     ```repl
     ram: Memory.SharedMemory @ sysbus 0xC0000000
         offset: 0x3c100000
         size: 0x40000000
         filePath: "/dev/shm/qemu-ram"
     ```
-2. add SharedMemory.cs plugin to `your_renode_script.resc`
+2. include SharedMemory.cs plugin in `your_renode_script.resc`
     ```resc
-    include $CWD/SharedMemory.cs
-    machine LoadPlatformDescription $CWD/your_renode_platform.repl
+    include $ORIGIN/SharedMemory.cs
+    machine LoadPlatformDescription $ORIGIN/your_renode_platform.repl
     ```
 3. start Renode emulation after QEMU has booted and created /dev/shm/qemu-ram file
